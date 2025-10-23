@@ -1,0 +1,1 @@
+writer.writerow([quote_text, author_name, tags_string, page_count])

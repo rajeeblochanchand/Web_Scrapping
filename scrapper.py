@@ -10,7 +10,7 @@ current_page_url = base_url
 
 with open('quotes.csv', 'w', newline='', encoding='utf-8') as csvfile:
     writer = csv.writer(csvfile)
-    fields = ['Quote', 'Author','Page']
+    fields = ['Quote', 'Author','Tags','Page']
     writer.writerow(fields)
     while(current_page_url):
         try:
@@ -25,8 +25,10 @@ with open('quotes.csv', 'w', newline='', encoding='utf-8') as csvfile:
             for quote in quotes:
                 quote_text = quote.find('span', class_='text').text
                 author_name = quote.find('small', class_='author').text
+                tags = [tag.text for tag in quote.find_all('a', class_ = 'tag')]
+                tags_string = ';'.join(tags)
                 print(f'Quote: {quote_text}\nAuthor: {author_name}')
-                writer.writerow([quote_text, author_name, page_count])
+                writer.writerow([quote_text, author_name, tags_string, page_count])
                 print('\n')
 
             next_button = soup.find('li', class_='next')
